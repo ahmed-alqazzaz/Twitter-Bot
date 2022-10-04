@@ -46,9 +46,9 @@ Python Selenium-based twitter bot that facilitates human-like interaction with t
 ## Examples
 <p>
 
-The following examples illustrates one of the possible outputs of the program <br />
-The interations below are fully automated with no manual prompts <br />
-The speed at which the program is running has been adjusted to fit a short a clip
+The following examples illustrate one of the possible outputs of the program <br />
+The interactions below are fully automated with no manual prompts <br />
+The speed at which the program is running has been adjusted to fit in short clip
 
 </p>
 </div>
