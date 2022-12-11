@@ -11,11 +11,11 @@ with AccountsManager() as Manager:
     email = "account's email@gmail.com"
     username = "account's username"
     password = "XXXXXXXXXXXXXXXXXXXXX"
-    Manager.add_account(email= email,username=username,password=password)
+    #Manager.add_account(email= email,username=username,password=password)
 
 with AccountsManager() as Manager:
     #provide one of the account credentials to receive the rest
-    id,username,email,password = Manager.account_info("email","account's email.com")
+    id,username,email,password = Manager.account_info("email",email)
 
 
 #login to twitter using the credentials from the database
@@ -24,16 +24,14 @@ with TwitterBot(id=id,Username=username,Email=email,Password=password) as bot:
     print(bot.trends())
     
     """
-      like and retweet tweets that contains specific hashtag or topic
-      and therefore enhance its trending prospects
+      like and retweet tweets that contain specific hashtag or topic
     """
-    bot.trend_up(hashtag = "#Hashtag",likes_retweets= 20,tab = "Top")
+    bot.trend_up(hashtag = "#Tesla",likes_retweets= 2,tab = "Latest")
+    
     sleep(random.uniform(1.4,3.7))
     
-
     #return back to pevious page
     bot.driver.back()
-
     #tweet from home page
     for i in range(5):
         sleep((random.uniform(1.2,3.1)))
@@ -41,8 +39,6 @@ with TwitterBot(id=id,Username=username,Email=email,Password=password) as bot:
     
     #naviage to certain topic or twitter account
     bot.search("Elon Musk")
-
-
     #tweet from hashtag or topic page
     bot.search("#Hashtag")
     for i in range(5):

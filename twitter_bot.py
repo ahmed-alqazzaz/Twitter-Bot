@@ -38,9 +38,16 @@ class TwitterBot(TwitterHelper,Features):
 
         #set up chromedriver options C:\Users\acer\AppData\Local\Google\Chrome\User Data\Default
         option = webdriver.ChromeOptions()
+        prefs = {"credentials_enable_service": False,
+        "profile.password_manager_enabled": False}
+        option.add_experimental_option("prefs",prefs)
         option.add_experimental_option("excludeSwitches",["enable-automation"])
         option.add_experimental_option("useAutomationExtension","False")
         option.add_argument('--disable-blink-features=AutomationControlled')
+        
+
+        x = r'C:\Users\acer\AppData\Local\Google\Chrome\User Data\Default'
+        option.add_argument(f'user-data-dir={x}')
 
         #export environment variable
         load_dotenv()
@@ -71,7 +78,7 @@ class TwitterBot(TwitterHelper,Features):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         #add cookies to the database
-        sleep(random.uniform(5.5,6.8))
+        sleep(random.uniform(3.5,3.8))
         with AccountsManager() as Manager:
             Manager.save_cookies(self.driver.get_cookies(),self.id)
 
