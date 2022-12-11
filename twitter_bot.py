@@ -45,10 +45,6 @@ class TwitterBot(TwitterHelper,Features):
         option.add_experimental_option("useAutomationExtension","False")
         option.add_argument('--disable-blink-features=AutomationControlled')
         
-
-        x = r'C:\Users\acer\AppData\Local\Google\Chrome\User Data\Default'
-        option.add_argument(f'user-data-dir={x}')
-
         #export environment variable
         load_dotenv()
         PATH = rf"{os.getenv('CHROMEDRIVER_PATH')}"
@@ -58,7 +54,6 @@ class TwitterBot(TwitterHelper,Features):
         self.driver.delete_all_cookies()
         self.driver.maximize_window()
         self.actions = ActionChains(self.driver)
-        
         
         #go to twitter
         self.driver.get("https://twitter.com")
