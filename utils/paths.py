@@ -1,6 +1,6 @@
 PATHS = {
     "Body" : '/html/body',
-    "SigninBtn" : '//*[@id="react-root"]/div/div/div[2]/main/div/div/div[1]/div[1]/div/div[3]/div[5]/a',
+    "SigninBtn" : '//a[@href="/login"]',
     "SigninModal": '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]',
     "Email" : '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input',
     "Next(Email)" : '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]',
