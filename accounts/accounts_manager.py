@@ -40,13 +40,22 @@ class AccountsManager:
     #add account to accounts.db
     def add_account(self, email: str, username: str, password: str,phone = None,cookie=None):
         #add the account to the database
-        self.cur.execute("INSERT INTO users(username,password,email) VALUES(?,?,?)",(username,password,email))
-        
+        try:
+           self.cur.execute("INSERT INTO users(username,password,email) VALUES(?,?,?)",(username,password,email))    
+        #in case one of email or username is already in the database integrity error will be raised
+        except sqlite3.IntegrityError:
+            raise Exception("Account Already Exists")
+
         #get id of the added row
         id = self.cur.lastrowid
         
-        #add phone number and cookies
-        self.cur.execute("INSERT INTO phones(user_id,phone) VALUES(?,?)",(id,phone))
+        #add phone number
+        try:
+           self.cur.execute("INSERT INTO phones(user_id,phone) VALUES(?,?)",(id,phone))
+        except sqlite3.IntegrityError:
+            raise Exception("Phone number is linked to another account")
+        
+        #add cookies
         self.cur.execute("INSERT INTO cookies(user_id,cookie) VALUES(?,?)",(id,cookie))
 
     
