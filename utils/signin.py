@@ -20,22 +20,22 @@ class Signin:
         if self.__signin_modal() is False: 
             raise Exception("Sign in modal is not displayed")
 
-        
         self.__type("Email")
 
         #in case email is invalid
-        if self.__check_errors() is True: raise Exception("Email is invalid")
+        if self.check_words(keywords = ["sorry","could not","wrong password","incorrect","try again"], duration = 5) is True:
+            raise Exception("Email is invalid")
 
-        #in case twitter is suspecting unusual activity
-        if self.__check_issues() is True:
+        #in case twitter is suspecting unusual activity and is asking to type username
+        if self.check_words(keywords = ["verify","unusual","activity"], duration = 2) is True:
             self.__type("Username")
-            if self.__check_errors() is True:
+            if self.check_words(keywords = ["sorry","could not","wrong password","incorrect","try again"], duration = 3) is True:
                 raise Exception("Username is invalid")
-        
+
         #type password
         self.__type("Password")
 
-        if self.__check_errors() is True: 
+        if self.check_words(keywords = ["sorry","could not","wrong password","incorrect","try again"], duration = 3) is True: 
             raise Exception("Password is invalid")
 
     
@@ -63,7 +63,7 @@ class Signin:
             raise Exception("invalid target")
 
         #type the target text in the target placeholder if clickable, else raise exception
-        #print(getattr(self,target))
+        #print(getattr(self,target),end="\n\n")
         if (placeholder := self._type(  (By.XPATH,PATHS[target])  ,  getattr(self,target))  ) is None:
             raise Exception(f"{target} placeholder is not clickable")
         
@@ -89,20 +89,3 @@ class Signin:
 
         #hover over the next button for some time then type the click
         self.actions.move_to_element(Next).pause(random.uniform(0.5,1.3)).click().perform()
-
-
-
-    #check if twitter is suspecting some unusual activities
-    def __check_issues(self):
-        if (Modal := self.get_element(EC.visibility_of_element_located((By.XPATH,PATHS["SigninModal"])),10)) is None:
-            raise Exception("Signin Modal is not present")
-        
-        #return True if any of the following words are in the text else false
-        return any([True for word in ["verify","unusual","activity"]if word in Modal.text.lower()])
-
-    def __check_errors(self):
-        Body = self.get_element(EC.visibility_of_element_located((By.XPATH,PATHS["Body"])),5)
-        sleep(1.5)
-
-        #return True if any of the following words are in the text else false
-        return any([True for word in ["sorry","could not","wrong password","incorrect","try again"]if word in Body.text.lower()])   

@@ -2,10 +2,10 @@ from selenium.common.exceptions import TimeoutException,StaleElementReferenceExc
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 import random
 from time import sleep
+import time
 import json
 
 
@@ -14,7 +14,7 @@ from utils.signin import Signin
 from accounts.accounts_manager import AccountsManager
 
 class TwitterHelper(Signin):
-    def get_element(self,condition,time):
+    def get_element(self, condition, time):
         try:
             Element = WebDriverWait(self.driver,time).until(
                 condition
@@ -26,8 +26,27 @@ class TwitterHelper(Signin):
         else:
             return Element
 
-    
-    
+    #check if certain keywords are in the page for a certain duration in seconds
+    def check_words(self, keywords : list, duration : int):
+        Body = self.get_element(EC.visibility_of_element_located((By.XPATH,PATHS["Body"])),5)
+        
+        start_time = time.time()
+        time_spent = 0
+        
+        #keep running as long as time spent in the loop less than the required checking duration 
+        while time_spent < duration:
+            current_text = Body.text.lower().strip()
+            print(current_text)
+
+            #in case there is at least one of these words return true
+            if any([True for word in keywords if word in current_text]) == True:
+                return True
+            #update time spent
+            time_spent = time.time() - start_time
+        
+        return False
+
+
     def _is_loaded(self):
         #in case body is not present after 20 seconds raise Exception
         if self.get_element(EC.presence_of_element_located((By.XPATH,PATHS["Body"])),20) is None:
@@ -36,9 +55,9 @@ class TwitterHelper(Signin):
    
     def _type(self,location : object ,txt : str):
         #check if placeholder is clickable else return None
-        if(Placeholder := self.get_element(EC.element_to_be_clickable(location),10)) is None:
+        if(Placeholder := self.get_element(EC.element_to_be_clickable(location),100)) is None:
             return
-
+        
         #hover over the placeholder for some time then click
         self.actions.move_to_element(Placeholder).pause(random.uniform(0.5,1.3)).perform()
         Placeholder.click()
