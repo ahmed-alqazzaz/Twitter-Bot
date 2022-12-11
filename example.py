@@ -11,7 +11,7 @@ with AccountsManager() as Manager:
     email = "account's email@gmail.com"
     username = "account's username"
     password = "XXXXXXXXXXXXXXXXXXXXX"
-    #Manager.add_account(email= email,username=username,password=password)
+    Manager.add_account(email= email,username=username,password=password)
 
 with AccountsManager() as Manager:
     #provide one of the account credentials to receive the rest
@@ -26,7 +26,7 @@ with TwitterBot(id=id,Username=username,Email=email,Password=password) as bot:
     """
       like and retweet tweets that contain specific hashtag or topic
     """
-    bot.trend_up(hashtag = "#Tesla",likes_retweets= 2,tab = "Latest")
+    bot.trend_up(hashtag = "#Hashtag",likes_retweets= 2,tab = "Top")
     
     sleep(random.uniform(1.4,3.7))
     
